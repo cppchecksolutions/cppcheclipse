@@ -6,4 +6,4 @@ Bundle-Version: 1.1.2.qualifier
 Bundle-Vendor: Konrad Windszus
 Fragment-Host: com.googlecode.cppcheclipse.ui;bundle-version="0.9.8"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Require-Bundle: org.junit4;bundle-version="4.8.1"
+Require-Bundle: org.junit;bundle-version="4.13.2"

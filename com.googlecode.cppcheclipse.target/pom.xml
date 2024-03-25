@@ -11,7 +11,7 @@
 
 	<artifactId>com.googlecode.cppcheclipse.target</artifactId>
 	<packaging>pom</packaging>
-	
+
 	<build>
 		<plugins>
 			<plugin>
@@ -37,6 +37,11 @@
 									<type>target</type>
 									<classifier>eclipse4.3cdtp2</classifier>
 								</artifact>
+								<artifact>
+									<file>eclipse4.31cdtp2.target</file>
+									<type>target</type>
+									<classifier>eclipse4.31cdtp2</classifier>
+								</artifact>
 							</artifacts>
 						</configuration>
 					</execution>
@@ -44,6 +49,5 @@
 			</plugin>
 		</plugins>
 	</build>
-
 
 </project>

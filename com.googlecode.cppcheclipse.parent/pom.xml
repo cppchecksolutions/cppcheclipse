@@ -14,10 +14,31 @@
 	</prerequisites>
 
 	<properties>
-		<tycho-version>0.24.0</tycho-version>
+		<tycho-version>4.0.6</tycho-version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven-antrun-plugin.version>1.7</maven-antrun-plugin.version>
 	</properties>
+
+    <profiles>
+        <profile>
+            <id>java8</id>
+            <activation>
+                <jdk>1.8</jdk>
+            </activation>
+            <properties>
+                <classifier>eclipse3.6cdtp2</classifier>
+            </properties>
+        </profile>
+        <profile>
+            <id>java17</id>
+            <activation>
+                <jdk>17</jdk>
+            </activation>
+            <properties>
+                <classifier>eclipse4.31cdtp2</classifier>
+            </properties>
+        </profile>
+    </profiles>
 
 	<build>
 		<plugins>
@@ -39,7 +60,7 @@
 							<artifactId>com.googlecode.cppcheclipse.target</artifactId>
 							<groupId>com.googlecode.cppcheclipse</groupId>
 							<version>${project.version}</version>
-							<classifier>eclipse3.6cdtp2</classifier>
+							<classifier>${classifier}</classifier>
 						</artifact>
 					</target>
 					<ignoreTychoRepositories>true</ignoreTychoRepositories>
