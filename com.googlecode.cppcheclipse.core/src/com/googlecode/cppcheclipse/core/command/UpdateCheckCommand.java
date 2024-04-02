@@ -15,7 +15,7 @@ import com.googlecode.cppcheclipse.core.utils.IHttpClientService;
 
 public class UpdateCheckCommand {
 
-	private static final String UPDATE_URL = "http://cppcheck.sourceforge.net/version.txt";
+	private static final String UPDATE_URL = "https://cppcheck.sourceforge.net/version.txt";
 
 	public UpdateCheckCommand() {
 

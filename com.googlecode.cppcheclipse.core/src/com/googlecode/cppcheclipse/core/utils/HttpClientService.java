@@ -92,27 +92,38 @@ public class HttpClientService implements IHttpClientService {
 		return false;
 	}
 
+	private HttpURLConnection newGetRequest(URL url, Proxy proxy) throws IOException {
+		HttpURLConnection connection;
+		if (proxy != null)
+			connection = (HttpURLConnection) url.openConnection(proxy);
+		else
+			connection = (HttpURLConnection) url.openConnection();
+		connection.setRequestMethod("GET");
+		connection.setDoOutput(true);
+		connection.setReadTimeout(10000);
+		return connection;
+	}
+
 	/* (non-Javadoc)
 	 * @see com.googlecode.cppcheclipse.core.utils.IHttpClient#executeGetRequest(java.net.URL)
 	 */
 	public InputStream executeGetRequest(URL url) throws URISyntaxException, IOException {
 		Proxy proxy = getProxy(url.toURI());
-		
-		HttpURLConnection connection;
-		if (proxy != null) 
-			connection = (HttpURLConnection) url.openConnection(proxy);
-		else 
-			connection = (HttpURLConnection) url.openConnection();
-		connection.setRequestMethod("GET");
-		connection.setDoOutput(true);
-		connection.setReadTimeout(10000);
+
+		HttpURLConnection connection = newGetRequest(url, proxy);
+
+		if (connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_TEMP ||
+			connection.getResponseCode() == HttpURLConnection.HTTP_MOVED_PERM) {
+			String newUrl = connection.getHeaderField("Location");
+			connection = newGetRequest(new URL(newUrl), proxy);
+		}
+
 		if (connection.getResponseCode() != HttpURLConnection.HTTP_OK) {
-			throw new IOException("Wrong response code: "
-					+ connection.getResponseMessage());
+			throw new IOException("Wrong response code: " + connection.getResponseMessage());
 		}
 		return connection.getInputStream();
 	}
-	
+
 	/**
 			 * Binds the {@link IProxyService} service reference.
 			 *
