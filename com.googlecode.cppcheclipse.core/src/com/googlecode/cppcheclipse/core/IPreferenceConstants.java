@@ -23,6 +23,7 @@ public interface IPreferenceConstants {
 	public static final String P_FOLLOW_SYSTEM_INCLUDES = "followSystemIncludes";
 	public static final String P_FOLLOW_USER_INCLUDES = "followUserIncludes";
 	public static final String P_NUMBER_OF_THREADS = "numberOfThreads";
+	public static final String P_PROJECT_FILE = "projectFile";
 	public static final String P_AUTOMATIC_UPDATE_CHECK_INTERVAL = "automaticUpdateCheckInterval";
 	public static final String P_USE_AUTOMATIC_UPDATE_CHECK = "automaticUpdateCheck";
 	public static final String P_LAST_UPDATE_CHECK = "lastUpdateCheck";
