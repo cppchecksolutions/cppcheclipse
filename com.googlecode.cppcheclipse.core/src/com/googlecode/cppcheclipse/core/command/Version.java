@@ -33,7 +33,7 @@ public class Version {
 	}
 
 	/** version string must have the format
-	 * "cppcheck <majorVersion>.<minorVersion>[.<revision>]"
+	 * "cppcheck [premium] <majorVersion>.<minorVersion>[.<revision>][.patch][s]"
 	 *
 	 * @param version
 	 */
@@ -101,14 +101,15 @@ public class Version {
 		if (version.versionType != VersionType.ANY && versionType != version.versionType) {
 			throw new IllegalArgumentException("Cannot compare versions of different types");
 		}
-		if (majorVersion > version.majorVersion)
-			return true;
-		if (majorVersion == version.majorVersion && minorVersion > version.minorVersion)
-			return true;
-		if (majorVersion == version.majorVersion && minorVersion == version.minorVersion && revision > version.revision)
-			return true;
-		return majorVersion == version.majorVersion && minorVersion == version.minorVersion && revision == version.revision && patch > version.patch;
+		if (majorVersion != version.majorVersion)
+			return majorVersion > version.majorVersion;
+		if (minorVersion != version.minorVersion)
+			return minorVersion > version.minorVersion;
+		if (revision != version.revision)
+			return revision > version.revision;
+		return patch > version.patch;
 	}
+
 
 	public boolean isGreaterOrEqual(Version version) {
 		return isGreaterThan(version) || equals(version);

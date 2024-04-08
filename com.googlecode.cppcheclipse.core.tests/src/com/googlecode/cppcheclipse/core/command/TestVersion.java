@@ -205,6 +205,14 @@ public class TestVersion {
 	}
 
 	@Test
+	public void testIsGreaterThanDifferentMinorVersions3() {
+		Version version1 = new Version("cppcheck 24.4.0");
+		Version version2 = new Version("cppcheck 24.10.1");
+		assertTrue(version2.isGreaterThan(version1));
+		assertFalse(version1.isGreaterThan(version2));
+	}
+
+	@Test
 	public void testIsGreaterThanPremiumDifferentMinorVersions2() {
 		Version version1 = new Version("cppcheck premium 1.2.6");
 		Version version2 = new Version("cppcheck premium 1.3.0");
