@@ -180,7 +180,8 @@ public class SettingsPreferencePage extends FieldEditorOverlayPage implements
 				IPreferenceConstants.P_LANGUAGE_STANDARD_CPP,
 				"C++ Language Standard", new String[][] {
 						{ "Unspecified", "" }, { "C++03", "c++03" },
-						{ "C++11", "c++11" }}, getFieldEditorParent());
+						{ "C++11", "c++11" }, { "C++14", "c++14" },
+						{ "C++17", "c++17" }, { "C++20", "c++20" }}, getFieldEditorParent());
 		addField(languageStandardCppEditor);
 
 		final ComboFieldEditor platformsEditor = new ComboFieldEditor(
