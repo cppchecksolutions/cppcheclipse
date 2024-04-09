@@ -4,6 +4,7 @@ package com.googlecode.cppcheclipse.core;
  * Constant definitions for plug-in preferences
  */
 public interface IPreferenceConstants {
+	public static final String P_PREMIUM = "premium";
 	public static final String P_RUN_ON_BUILD = "runOnBuild";
 	public static final String P_PROBLEMS = "problems";
 	public static final String P_USE_PARENT_SUFFIX = "_useParentScope";
@@ -18,6 +19,14 @@ public interface IPreferenceConstants {
 	public static final String P_CHECK_INCONCLUSIVE = "checkInconclusive";
 	public static final String P_CHECK_FORCE = "checkForce";
 	public static final String P_CHECK_DEBUG = "checkDebug";
+	public static final String P_PREMIUM_BUG_HUNTING = "bughunting";
+	public static final String P_PREMIUM_MISRA_C_12 = "misrac12";
+	public static final String P_PREMIUM_MISRA_C_23 = "misrac23";
+	public static final String P_PREMIUM_MISRA_CPP_08 = "misracpp08";
+	public static final String P_PREMIUM_MISRA_CPP_23 = "misracpp23";
+	public static final String P_PREMIUM_CERT_C = "certc";
+	public static final String P_PREMIUM_CERT_CPP = "certcpp";
+	public static final String P_PREMIUM_AUTOSAR = "autosar";
 	public static final String P_USE_INLINE_SUPPRESSIONS = "useInlineSuppressions";
 	public static final String P_CHECK_UNUSED_FUNCTIONS = "checkUnusedFunctions";
 	public static final String P_FOLLOW_SYSTEM_INCLUDES = "followSystemIncludes";

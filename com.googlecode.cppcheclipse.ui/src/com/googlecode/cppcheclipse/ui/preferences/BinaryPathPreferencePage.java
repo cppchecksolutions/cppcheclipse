@@ -14,6 +14,7 @@ import org.eclipse.jface.preference.FieldEditorPreferencePage;
 import org.eclipse.jface.preference.StringButtonFieldEditor;
 import org.eclipse.debug.ui.StringVariableSelectionDialog;
 import org.eclipse.jface.preference.IPreferenceNode;
+import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.preference.PreferenceManager;
 import org.eclipse.jface.preference.RadioGroupFieldEditor;
@@ -128,6 +129,10 @@ public class BinaryPathPreferencePage extends FieldEditorPreferencePage
 						Version version = versionCommand
 								.run(new NullProgressMonitor());
 						currentVersion = version.toString();
+						IPersistentPreferenceStore store = CppcheclipsePlugin.getConfigurationPreferenceStore();
+						boolean isPremium = store.getBoolean(IPreferenceConstants.P_PREMIUM);
+						store.setValue(IPreferenceConstants.P_PREMIUM, version.isPremium());
+						store.save();
 						// check for minimal required version
 						if (!version.isCompatible()) {
 							showErrorMessage(Messages
