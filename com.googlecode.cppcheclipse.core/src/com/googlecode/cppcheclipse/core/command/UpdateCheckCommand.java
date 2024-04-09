@@ -15,15 +15,17 @@ import com.googlecode.cppcheclipse.core.utils.IHttpClientService;
 
 public class UpdateCheckCommand {
 
-	private static final String UPDATE_URL = "http://cppcheck.sourceforge.net/version.txt";
+	private static final String UPDATE_URL_OPEN_SOURCE = "https://cppcheck.sourceforge.net/version.txt";
+	private static final String UPDATE_URL_PREMIUM = "https://files.cppchecksolutions.com/premium-version.txt";
+	private static final String UPDATE_URL_PREMIUM_SAFETY_CERTIFIED = "https://files.cppchecksolutions.com/premium-s-version.txt";
 
 	public UpdateCheckCommand() {
 
 	}
 
-	private Version getNewVersion() throws IOException, URISyntaxException {
+	private Version getNewVersion(String url) throws IOException, URISyntaxException {
 		IHttpClientService client = CppcheclipsePlugin.getHttpClientService();
-		InputStream is = client.executeGetRequest(new URL(UPDATE_URL));
+		InputStream is = client.executeGetRequest(new URL(url));
 		BufferedReader rd = new BufferedReader(new InputStreamReader(is));
 		String line = rd.readLine();
 		rd.close();
@@ -47,8 +49,19 @@ public class UpdateCheckCommand {
 	 * @throws URISyntaxException 
 	 */
 	public Version run(IProgressMonitor monitor, IConsole console, String binaryPath) throws IOException, InterruptedException, ProcessExecutionException, URISyntaxException {
-		Version newVersion = getNewVersion();
+		String updateUrl = UPDATE_URL_OPEN_SOURCE;
 		Version currentVersion = getCurrentVersion(monitor, console, binaryPath);
+		switch (currentVersion.getType()) {
+			case PREMIUM:
+				updateUrl = UPDATE_URL_PREMIUM;
+				break;
+			case PREMIUM_SAFETY_CERTIFIED:
+				updateUrl = UPDATE_URL_PREMIUM_SAFETY_CERTIFIED;
+				break;
+			default:
+				break;
+		}
+		Version newVersion = getNewVersion(updateUrl);
 		if (newVersion.isGreaterThan(currentVersion))
 			return newVersion;
 		return null;
