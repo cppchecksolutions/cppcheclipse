@@ -100,11 +100,21 @@ public class Messages extends NLS {
 	public static String SettingsPreferencePage_Debug;
 	public static String SettingsPreferencePage_ChecksLabel;
 	public static String SettingsPreferencePage_InlineSuppressions;
-	
+
+	public static String SettingsPreferencePage_PremiumBugHunting;
+	public static String SettingsPreferencePage_PremiumMisraC2012;
+	public static String SettingsPreferencePage_PremiumMisraC2023;
+	public static String SettingsPreferencePage_PremiumMisraCpp2008;
+	public static String SettingsPreferencePage_PremiumMisraCpp2023;
+	public static String SettingsPreferencePage_PremiumCertC;
+	public static String SettingsPreferencePage_PremiumCertCpp;
+	public static String SettingsPreferencePage_PremiumAutosar;
+	public static String SettingsPreferencePage_PremiumLabel;
+
 	public static String SymbolsPropertyPage_Description;
 
 	public static String SettingsPreferencePage_Inconclusive;
-	
+
 	public static String SettingsPreferencePage_TargetPlatform;
 
 	public static String SettingsPreferencePage_LanguageStandard_Posix;
@@ -112,7 +122,7 @@ public class Messages extends NLS {
 	public static String SettingsPreferencePage_LanguageStandard_C99;
 
 	public static String SettingsPreferencePage_LanguageStandardsLabel;
-	
+
 	static {
 		// initialize resource bundle
 		NLS.initializeMessages(BUNDLE_NAME, Messages.class);

@@ -6,6 +6,8 @@ import java.util.List;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
+import org.eclipse.jface.preference.IPreferenceStore;
+import org.eclipse.jface.preference.IPersistentPreferenceStore;
 import org.eclipse.jface.preference.StringButtonFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -23,12 +25,22 @@ import com.googlecode.cppcheclipse.ui.Messages;
 public class SettingsPreferencePage extends FieldEditorOverlayPage implements
 		IWorkbenchPreferencePage {
 
+	private static final String CPPCHECK_PROJ_STRING = ".cppcheck";
+
 	private BooleanFieldEditor allCheck;
 	private BooleanFieldEditor unusedFunctionsCheck;
 	private IntegerFieldEditor numberOfThreads;
 	private StringButtonFieldEditor projectFile;
 	private List<BooleanFieldEditor> checkEditors;
 	private Group checkGroup;
+
+
+	ExclusiveBooleanFieldEditor misrac12Editor;
+	ExclusiveBooleanFieldEditor misrac23Editor;
+	ExclusiveBooleanFieldEditor misracpp08Editor;
+	ExclusiveBooleanFieldEditor misracpp23Editor;
+	private List<BooleanFieldEditor> premiumEditors;
+	private Group premiumGroup;
 
 	public SettingsPreferencePage() {
 		super(GRID, true);
@@ -122,6 +134,70 @@ public class SettingsPreferencePage extends FieldEditorOverlayPage implements
 		setCompositeLayout(checkGroup);
 	}
 
+
+	private void enablePremiumChecks(boolean val) {
+		misrac12Editor.setEnabled(val && !misrac23Editor.getBooleanValue(), premiumGroup);
+		misrac23Editor.setEnabled(val && !misrac12Editor.getBooleanValue(), premiumGroup);
+		misracpp08Editor.setEnabled(val && !misracpp23Editor.getBooleanValue(), premiumGroup);
+		misracpp23Editor.setEnabled(val && !misracpp08Editor.getBooleanValue(), premiumGroup);
+		for (BooleanFieldEditor premiumEditor : premiumEditors) {
+			premiumEditor.setEnabled(val, premiumGroup);
+		}
+	}
+
+	private void createPremiumGroup() {
+		// available premium options
+		final Composite parent = getFieldEditorParent();
+		premiumGroup = new Group(parent, SWT.NONE);
+		premiumGroup.setText(Messages.SettingsPreferencePage_PremiumLabel);
+
+		premiumEditors = new LinkedList<BooleanFieldEditor>();
+
+		BooleanFieldEditor bughuntingEditor = new BooleanFieldEditor(IPreferenceConstants.P_PREMIUM_BUG_HUNTING,
+			Messages.SettingsPreferencePage_PremiumBugHunting, premiumGroup);
+		addField(bughuntingEditor, premiumGroup);
+		premiumEditors.add(bughuntingEditor);
+
+		misrac12Editor = new ExclusiveBooleanFieldEditor(IPreferenceConstants.P_PREMIUM_MISRA_C_12,
+			Messages.SettingsPreferencePage_PremiumMisraC2012, premiumGroup);
+		addField(misrac12Editor, premiumGroup);
+
+		misrac23Editor = new ExclusiveBooleanFieldEditor(IPreferenceConstants.P_PREMIUM_MISRA_C_23,
+			Messages.SettingsPreferencePage_PremiumMisraC2023, premiumGroup);
+		addField(misrac23Editor, premiumGroup);
+
+		misrac12Editor.addDependent(misrac23Editor, premiumGroup);
+		misrac23Editor.addDependent(misrac12Editor, premiumGroup);
+
+		misracpp08Editor = new ExclusiveBooleanFieldEditor(IPreferenceConstants.P_PREMIUM_MISRA_CPP_08,
+			Messages.SettingsPreferencePage_PremiumMisraCpp2008, premiumGroup);
+		addField(misracpp08Editor, premiumGroup);
+
+		misracpp23Editor = new ExclusiveBooleanFieldEditor(IPreferenceConstants.P_PREMIUM_MISRA_CPP_23,
+			Messages.SettingsPreferencePage_PremiumMisraCpp2023, premiumGroup);
+		addField(misracpp23Editor, premiumGroup);
+
+		misracpp08Editor.addDependent(misracpp23Editor, premiumGroup);
+		misracpp23Editor.addDependent(misracpp08Editor, premiumGroup);
+
+		BooleanFieldEditor certcEditor = new BooleanFieldEditor(IPreferenceConstants.P_PREMIUM_CERT_C,
+			Messages.SettingsPreferencePage_PremiumCertC, premiumGroup);
+		addField(certcEditor, premiumGroup);
+		premiumEditors.add(certcEditor);
+
+		BooleanFieldEditor certcppEditor = new BooleanFieldEditor(IPreferenceConstants.P_PREMIUM_CERT_CPP,
+			Messages.SettingsPreferencePage_PremiumCertCpp, premiumGroup);
+		addField(certcppEditor, premiumGroup);
+		premiumEditors.add(certcppEditor);
+
+		BooleanFieldEditor autosarEditor = new BooleanFieldEditor(IPreferenceConstants.P_PREMIUM_AUTOSAR,
+			Messages.SettingsPreferencePage_PremiumAutosar, premiumGroup);
+		addField(autosarEditor, premiumGroup);
+		premiumEditors.add(autosarEditor);
+
+		setCompositeLayout(premiumGroup);
+	}
+
 	@Override
 	protected void createFieldEditors() {
 
@@ -132,6 +208,14 @@ public class SettingsPreferencePage extends FieldEditorOverlayPage implements
 			@Override
 			protected String changePressed() {
 				return projectFileDialog.open();
+			}
+
+			@Override
+			protected void valueChanged() {
+				super.valueChanged();
+				IPersistentPreferenceStore store = CppcheclipsePlugin.getConfigurationPreferenceStore();
+				boolean isPremium = store.getBoolean(IPreferenceConstants.P_PREMIUM);
+				enablePremiumChecks(isPremium && (getStringValue().isEmpty() || !getStringValue().endsWith(CPPCHECK_PROJ_STRING)));
 			}
 
 		};
@@ -157,7 +241,8 @@ public class SettingsPreferencePage extends FieldEditorOverlayPage implements
 		addField(numberOfThreads);
 
 		createCheckGroup();
-		
+		createPremiumGroup();
+
 		final BooleanFieldEditor inconclusiveChecks = new BooleanFieldEditor(
 				IPreferenceConstants.P_CHECK_INCONCLUSIVE,
 				Messages.SettingsPreferencePage_Inconclusive,
@@ -252,5 +337,10 @@ public class SettingsPreferencePage extends FieldEditorOverlayPage implements
 		for (BooleanFieldEditor editor : checkEditors) {
 			editor.setEnabled(!allCheck.getBooleanValue(), checkGroup);
 		}
+
+		IPersistentPreferenceStore store = CppcheclipsePlugin.getConfigurationPreferenceStore();
+		boolean isPremium = store.getBoolean(IPreferenceConstants.P_PREMIUM);
+		enablePremiumChecks(isPremium && (projectFile.getStringValue().isEmpty()
+				|| !projectFile.getStringValue().endsWith(CPPCHECK_PROJ_STRING)));
 	}
 }

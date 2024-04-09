@@ -124,6 +124,14 @@ public class Version {
 	}
 
 
+	/**
+	 * @return true if the version is a premium version
+	 */
+	public boolean isPremium() {
+		return getType() == VersionType.PREMIUM || getType() == VersionType.PREMIUM_SAFETY_CERTIFIED;
+	}
+
+
 	@Override
 	public String toString() {
 		StringBuffer version = new StringBuffer();

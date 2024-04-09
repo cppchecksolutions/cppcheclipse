@@ -55,8 +55,38 @@ public class CppcheckCommand extends AbstractCppcheckCommand {
 	private final static Pattern FILE_PATTERN = Pattern
 			.compile("^Checking (.*)...");
 
+	private static final String CPPCHECK_PROJ_STRING = ".cppcheck";
+
 	private final Collection<String> arguments;
 	private String advancedArguments;
+
+
+	private void addPremiumChecks(IPreferenceStore settingsStore) {
+		if (settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM_BUG_HUNTING)) {
+			arguments.add("--premium=bughunting");
+		}
+		if (settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM_MISRA_C_12)) {
+			arguments.add("--premium=misra-c-2012");
+		}
+		if (settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM_MISRA_C_23)) {
+			arguments.add("--premium=misra-c-2023");
+		}
+		if (settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM_MISRA_CPP_08)) {
+			arguments.add("--premium=misra-c++-2008");
+		}
+		if (settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM_MISRA_CPP_23)) {
+			arguments.add("--premium=misra-c++-2023");
+		}
+		if (settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM_CERT_C)) {
+			arguments.add("--premium=cert-c-2016");
+		}
+		if (settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM_CERT_CPP)) {
+			arguments.add("--premium=cert-c++-2016");
+		}
+		if (settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM_AUTOSAR)) {
+			arguments.add("--premium=autosar");
+		}
+	}
 
 	/**
 	 * For testing purposes either use interfaces or simple types as parameters.
@@ -130,6 +160,10 @@ public class CppcheckCommand extends AbstractCppcheckCommand {
 			arguments.add("--file-filter=-");
 		} else {
 			arguments.add("--file-list=-");
+		}
+
+		if (projectFile.isEmpty() || !projectFile.endsWith(CPPCHECK_PROJ_STRING)) {
+			addPremiumChecks(settingsStore);
 		}
 
 		if (settingsStore.getBoolean(IPreferenceConstants.P_CHECK_VERBOSE)) {

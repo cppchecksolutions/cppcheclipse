@@ -340,4 +340,26 @@ public class TestVersion {
 		assertTrue(version3.isCompatible());
 	}
 
+	@Test
+	public void testPremium() {
+		Version version1 = new Version("cppcheck 1.56");
+		Version version2 = new Version("cppcheck 1.56.0");
+		Version version3 = new Version("cppcheck 1.56.0.0");
+		assertFalse(version1.isPremium());
+		assertFalse(version2.isPremium());
+		assertFalse(version3.isPremium());
+		version1 = new Version("cppcheck premium 1.56");
+		version2 = new Version("cppcheck premium 1.56.0");
+		version3 = new Version("cppcheck premium 1.56.0.0");
+		assertTrue(version1.isPremium());
+		assertTrue(version2.isPremium());
+		assertTrue(version3.isPremium());
+		version1 = new Version("cppcheck premium 1.56s");
+		version2 = new Version("cppcheck premium 1.56.0s");
+		version3 = new Version("cppcheck premium 1.56.0.0s");
+		assertTrue(version1.isPremium());
+		assertTrue(version2.isPremium());
+		assertTrue(version3.isPremium());
+	}
+
 }
