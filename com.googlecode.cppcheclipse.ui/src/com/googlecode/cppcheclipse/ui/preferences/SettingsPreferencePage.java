@@ -6,15 +6,18 @@ import java.util.List;
 import org.eclipse.jface.preference.BooleanFieldEditor;
 import org.eclipse.jface.preference.ComboFieldEditor;
 import org.eclipse.jface.preference.IntegerFieldEditor;
+import org.eclipse.jface.preference.StringButtonFieldEditor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
+import org.eclipse.swt.widgets.FileDialog;
 import org.eclipse.ui.IWorkbench;
 import org.eclipse.ui.IWorkbenchPreferencePage;
 
 import com.googlecode.cppcheclipse.core.CppcheclipsePlugin;
 import com.googlecode.cppcheclipse.core.IPreferenceConstants;
+import com.googlecode.cppcheclipse.ui.Console;
 import com.googlecode.cppcheclipse.ui.Messages;
 
 public class SettingsPreferencePage extends FieldEditorOverlayPage implements
@@ -23,6 +26,7 @@ public class SettingsPreferencePage extends FieldEditorOverlayPage implements
 	private BooleanFieldEditor allCheck;
 	private BooleanFieldEditor unusedFunctionsCheck;
 	private IntegerFieldEditor numberOfThreads;
+	private StringButtonFieldEditor projectFile;
 	private List<BooleanFieldEditor> checkEditors;
 	private Group checkGroup;
 
@@ -120,6 +124,21 @@ public class SettingsPreferencePage extends FieldEditorOverlayPage implements
 
 	@Override
 	protected void createFieldEditors() {
+
+		final FileDialog projectFileDialog = new FileDialog(getShell(), SWT.OPEN);
+		projectFile = new StringButtonFieldEditor(IPreferenceConstants.P_PROJECT_FILE,
+			Messages.SettingsPreferencePage_ProjectFile, getFieldEditorParent()) {
+
+			@Override
+			protected String changePressed() {
+				return projectFileDialog.open();
+			}
+
+		};
+		projectFile.setChangeButtonText(Messages.SettingsPreferencePage_ProjectFileDialogButton);
+		projectFile.setEmptyStringAllowed(true);
+		addField(projectFile);
+
 		numberOfThreads = new IntegerFieldEditor(
 				IPreferenceConstants.P_NUMBER_OF_THREADS,
 				Messages.SettingsPreferencePage_NumberOfThreads,

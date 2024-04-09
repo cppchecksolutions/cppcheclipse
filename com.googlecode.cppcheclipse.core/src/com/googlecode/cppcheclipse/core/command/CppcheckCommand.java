@@ -124,6 +124,14 @@ public class CppcheckCommand extends AbstractCppcheckCommand {
 			}
 		}
 
+		String projectFile = settingsStore.getString(IPreferenceConstants.P_PROJECT_FILE);
+		if (!projectFile.isEmpty()) {
+			arguments.add("--project=" + projectFile);
+			arguments.add("--file-filter=-");
+		} else {
+			arguments.add("--file-list=-");
+		}
+
 		if (settingsStore.getBoolean(IPreferenceConstants.P_CHECK_VERBOSE)) {
 			arguments.add("--verbose");
 		}
@@ -227,10 +235,9 @@ public class CppcheckCommand extends AbstractCppcheckCommand {
 		console.println("=== Input stream for following process ===");
 		console.println(input);
 		console.println("=== End of input stream for process ==");
-		
+
 		setProcessInputStream(new ByteArrayInputStream(input.getBytes(DEFAULT_CHARSET)));
-		arguments.add("--file-list=-");
-		
+
 		setWorkingDirectory(projectFolder);
 		CppcheckProcessResultHandler resultHandler = runInternal(
 				arguments.toArray(new String[0]), advancedArguments,

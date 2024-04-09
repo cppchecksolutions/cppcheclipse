@@ -34,6 +34,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		store.setDefault(IPreferenceConstants.P_FOLLOW_SYSTEM_INCLUDES, false);
 		store.setDefault(IPreferenceConstants.P_FOLLOW_USER_INCLUDES, false);
 		store.setDefault(IPreferenceConstants.P_NUMBER_OF_THREADS, 1);
+		store.setDefault(IPreferenceConstants.P_PROJECT_FILE, "");
 	}
 	
 	private static void initializeProblemsDefault(IPreferenceStore store) {

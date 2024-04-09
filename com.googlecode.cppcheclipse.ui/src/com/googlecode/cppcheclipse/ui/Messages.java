@@ -69,6 +69,8 @@ public class Messages extends NLS {
 	public static String SettingsPreferencePage_FollowSystemIncludes;
 	public static String SettingsPreferencePage_Force;
 	public static String SettingsPreferencePage_NumberOfThreads;
+	public static String SettingsPreferencePage_ProjectFile;
+	public static String SettingsPreferencePage_ProjectFileDialogButton;
 	public static String SettingsPreferencePage_UnusedFunctions;
 	public static String SettingsPreferencePage_Verbose;
 	public static String SuppressFileResolution_Label;
