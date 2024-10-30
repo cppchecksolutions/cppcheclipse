@@ -97,7 +97,7 @@ public class SymbolsPropertyPage extends FieldEditorOverlayPage implements
 		
 		table = new SymbolsTable(
 				IPreferenceConstants.P_SYMBOLS,
-				Messages.AppendagePropertyPage_AppendageLabel,
+				Messages.SymbolsPropertyPage_SymbolLabel,
 				group, settings);
 		restrictedSymbolEditors.add(table);
 		addField(table, group);

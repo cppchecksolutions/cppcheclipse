@@ -23,7 +23,6 @@ import org.xml.sax.SAXException;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Strings;
-import com.googlecode.cppcheclipse.core.Appendages;
 import com.googlecode.cppcheclipse.core.Checker;
 import com.googlecode.cppcheclipse.core.CppcheclipsePlugin;
 import com.googlecode.cppcheclipse.core.IConsole;
@@ -227,11 +226,6 @@ public class CppcheckCommand extends AbstractCppcheckCommand {
 				arguments.add("-I");
 				arguments.add(path.toString());
 			}
-		}
-
-		Appendages appendages = new Appendages(advancedSettingsStore);
-		for (File appendFile : appendages) {
-			arguments.add("--append=" + appendFile.toString());
 		}
 
 		// the symbols already contain all necessary symbols

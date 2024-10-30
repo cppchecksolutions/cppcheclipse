@@ -4,12 +4,6 @@ import org.eclipse.osgi.util.NLS;
 
 public class Messages extends NLS {
 	private static final String BUNDLE_NAME = "com.googlecode.cppcheclipse.ui.messages"; //$NON-NLS-1$
-	
-	public static String AppendagePropertyPage_AppendageLabel;
-	public static String AppendagePropertyPage_Description;
-	public static String AppendageTable_ColumnFile;
-	public static String AppendageTable_FileSelection;
-	public static String AppendageTable_FileSelectionMessage;
 	public static String UpdateCheck_Daily, UpdateCheck_JobName,
 			UpdateCheck_Monthly, UpdateCheck_NoUpdateMessage,
 			UpdateCheck_NoUpdateTitle,
@@ -89,6 +83,7 @@ public class Messages extends NLS {
 	public static String SuppressionsTable_FileSelectionMessage;
 	public static String SuppressProblemInLineResolution_Label;
 	public static String SuppressProblemResolution_Label;
+	public static String SymbolsPropertyPage_SymbolLabel;
 	public static String TableEditor_Add;
 	public static String TableEditor_Remove;
 	public static String TableEditor_RemoveAll;
