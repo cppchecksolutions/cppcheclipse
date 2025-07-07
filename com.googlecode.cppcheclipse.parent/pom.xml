@@ -38,6 +38,24 @@
                 <classifier>eclipse4.31cdtp2</classifier>
             </properties>
         </profile>
+        <profile>
+            <id>java21</id>
+            <activation>
+                <jdk>21</jdk>
+            </activation>
+            <properties>
+                <classifier>eclipse4.31cdtp2</classifier>
+            </properties>
+        </profile>
+        <profile>
+            <id>java24</id>
+            <activation>
+                <jdk>24</jdk>
+            </activation>
+            <properties>
+                <classifier>eclipse4.31cdtp2</classifier>
+            </properties>
+        </profile>
     </profiles>
 
 	<build>
