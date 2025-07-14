@@ -39,8 +39,9 @@ public class CppcheckCommand extends AbstractCppcheckCommand {
 	private final static String ERROR_FORMAT = "{file}" + DELIMITER + "{line}"
 			+ DELIMITER + "{severity}" + DELIMITER + "{id}" + DELIMITER
 			+ "{message}";
+	private final static String SAFETY_OFF = "--premium=safety-off";
 	private final static String[] DEFAULT_ARGUMENTS = { "--template="
-			+ ERROR_FORMAT };
+			+ ERROR_FORMAT, SAFETY_OFF };
 
 	/**
 	 * pattern recognizes "2/2 files checked 100% done"
