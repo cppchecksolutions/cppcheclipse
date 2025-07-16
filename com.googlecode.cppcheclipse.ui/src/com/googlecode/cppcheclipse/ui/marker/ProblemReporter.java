@@ -47,7 +47,7 @@ public class ProblemReporter implements IProblemReporter {
 		}
 		message.append(problem.getMessage());
 		final String completeMessage = Messages.bind(
-				Messages.ProblemReporter_Message, problem.getCategory(),
+				Messages.ProblemReporter_Message, (problem.getCategory() + " [" + problem.getId() + "]"),
 				message);
 		for (IResource resource : problem.getResources()) {
 			// for each resource
