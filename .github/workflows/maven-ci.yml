@@ -24,11 +24,8 @@ jobs:
       - name: Build with Maven (Java 17)
         run: mvn -B package --file com.googlecode.cppcheclipse.parent/pom.xml
 
-      - name: List files
-        run: find -name \*
-
       - uses: actions/upload-artifact@v4
         with:
-          name: target
-          path: com.googlecode.cppcheclipse.repository/target
+          name: cppcheclipse-repository
+          path: com.googlecode.cppcheclipse.repository/target/com.googlecode.cppcheclipse.repository-*-SNAPSHOT.zip
 
