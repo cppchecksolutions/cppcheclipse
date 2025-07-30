@@ -4,20 +4,28 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v3
-    - name: Set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: 17
-        distribution: 'temurin'
-        java-package: jdk
-    - name: Set up Maven 3.9.6
-      uses: stCarolas/setup-maven@v5
-      with:
-        maven-version: 3.9.6
-    - name: Build with Maven (Java 17)
-      run: mvn -B package --file com.googlecode.cppcheclipse.parent/pom.xml
+      - uses: actions/checkout@v3
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: 17
+          distribution: 'temurin'
+          java-package: jdk
+
+      - name: Set up Maven 3.9.6
+        uses: stCarolas/setup-maven@v5
+        with:
+          maven-version: 3.9.6
+
+      - name: Build with Maven (Java 17)
+        run: mvn -B package --file com.googlecode.cppcheclipse.parent/pom.xml
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cppcheclipse-repository
+          path: com.googlecode.cppcheclipse.repository/target/com.googlecode.cppcheclipse.repository-*-SNAPSHOT.zip
+
