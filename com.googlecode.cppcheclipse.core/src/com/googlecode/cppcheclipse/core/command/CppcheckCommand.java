@@ -39,9 +39,8 @@ public class CppcheckCommand extends AbstractCppcheckCommand {
 	private final static String ERROR_FORMAT = "{file}" + DELIMITER + "{line}"
 			+ DELIMITER + "{severity}" + DELIMITER + "{id}" + DELIMITER
 			+ "{message}";
-	private final static String SAFETY_OFF = "--premium=safety-off";
 	private final static String[] DEFAULT_ARGUMENTS = { "--template="
-			+ ERROR_FORMAT, SAFETY_OFF };
+			+ ERROR_FORMAT };
 
 	/**
 	 * pattern recognizes "2/2 files checked 100% done"
@@ -62,6 +61,13 @@ public class CppcheckCommand extends AbstractCppcheckCommand {
 
 
 	private void addPremiumChecks(IPreferenceStore settingsStore) {
+
+		if (!settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM)) {
+			return;
+		}
+
+		arguments.add("--premium=safety-off");
+
 		if (settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM_BUG_HUNTING)) {
 			arguments.add("--premium=bughunting");
 		}
