@@ -62,10 +62,6 @@ public class CppcheckCommand extends AbstractCppcheckCommand {
 
 	private void addPremiumChecks(IPreferenceStore settingsStore) {
 
-		if (!settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM)) {
-			return;
-		}
-
 		arguments.add("--premium=safety-off");
 
 		if (settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM_BUG_HUNTING)) {
@@ -97,7 +93,7 @@ public class CppcheckCommand extends AbstractCppcheckCommand {
 	/**
 	 * For testing purposes either use interfaces or simple types as parameters.
 	 * No dependency to Eclipse classes allowed.
-	 * 
+	 *
 	 * @param console
 	 * @param settingsStore
 	 *            either workspace or project settings
@@ -169,7 +165,9 @@ public class CppcheckCommand extends AbstractCppcheckCommand {
 		}
 
 		if (projectFile.isEmpty() || !projectFile.endsWith(CPPCHECK_PROJ_STRING)) {
-			addPremiumChecks(settingsStore);
+			if (settingsStore.getBoolean(IPreferenceConstants.P_PREMIUM)) {
+				addPremiumChecks(settingsStore);
+			}
 		}
 
 		if (settingsStore.getBoolean(IPreferenceConstants.P_CHECK_VERBOSE)) {
