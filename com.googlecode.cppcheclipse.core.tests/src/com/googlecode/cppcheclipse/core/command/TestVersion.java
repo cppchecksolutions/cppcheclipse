@@ -279,7 +279,7 @@ public class TestVersion {
 	@Test
 	public void testIsGreaterThanWithDefaultRevisionAndPatch() {
 		Version version1 = new Version("cppcheck 1.2");
-		Version version2 = new Version("cppcheck 1.2.1");
+		Version version2 = new Version("cppcheck 1.2.3");
 		Version version3 = new Version("cppcheck 1.2.0");
 		Version version4 = new Version("cppcheck 1.2.0.1");
 		assertTrue(version2.isGreaterThan(version1));
