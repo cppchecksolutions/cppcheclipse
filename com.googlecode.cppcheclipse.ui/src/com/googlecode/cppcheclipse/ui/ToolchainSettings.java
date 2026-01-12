@@ -179,7 +179,12 @@ public class ToolchainSettings implements IToolchainSettings {
 					if (includePathSetting instanceof ACPathEntry) {
 						// let CDT do the resolution for all ACPathEntries which should cover all include settings
 						ACPathEntry includePathEntry = (ACPathEntry) includePathSetting;
-						includePath = includePathEntry.getLocation().toFile();
+						IPath location = includePathEntry.getLocation();
+					    if (location == null) {
+					        continue;
+					    }
+
+					    includePath = location.toFile();
 					} else {
 
 						// make path absolute
