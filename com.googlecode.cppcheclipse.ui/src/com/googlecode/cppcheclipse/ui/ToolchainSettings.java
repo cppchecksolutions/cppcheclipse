@@ -3,6 +3,7 @@ package com.googlecode.cppcheclipse.ui;
 import java.io.File;
 import java.net.URI;
 import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,11 +37,12 @@ import com.googlecode.cppcheclipse.core.Symbol;
  * 
  */
 public class ToolchainSettings implements IToolchainSettings {
-	private static final String EXTENSION_CPP = "cpp";
 	private final List<ICLanguageSetting> languageSettings;
 	private final ICConfigurationDescription activeConfiguration;
 	private final IProject project;
 	private final IWorkspaceRoot root;
+	private static final String GCC_LANGUAGE_ID = "org.eclipse.cdt.core.gcc";
+	private static final String GPP_LANGUAGE_ID = "org.eclipse.cdt.core.g++";
 
 	public ToolchainSettings(IProject project) throws IllegalStateException {
 		languageSettings = new LinkedList<ICLanguageSetting>();
@@ -67,13 +69,10 @@ public class ToolchainSettings implements IToolchainSettings {
 		ICLanguageSetting[] allLanguageSettings = folderDescription
 				.getLanguageSettings();
 
-		// fetch the include settings from the first tool which supports c
-		for (ICLanguageSetting languageSetting : allLanguageSettings) {
-			String extensions[] = languageSetting.getSourceExtensions();
-			for (String extension : extensions) {
-				if (EXTENSION_CPP.equalsIgnoreCase(extension)) { //$NON-NLS-1$
-					languageSettings.add(languageSetting);
-				}
+		for (ICLanguageSetting ls : allLanguageSettings) {
+			String id = ls.getLanguageId();
+			if (GCC_LANGUAGE_ID.equals(id) || GPP_LANGUAGE_ID.equals(id)) {
+			    languageSettings.add(ls);
 			}
 		}
 
@@ -161,7 +160,7 @@ public class ToolchainSettings implements IToolchainSettings {
 	 * @return all include folders in a list
 	 */
 	protected Collection<File> getIncludes(boolean onlyUserDefined) {
-		Collection<File> paths = new LinkedList<File>();
+		Collection<File> paths = new LinkedHashSet<File>();
 		IWorkspaceRoot workspaceRoot = project.getWorkspace().getRoot();
 		URI workspaceUri = workspaceRoot.getLocationURI();
 
